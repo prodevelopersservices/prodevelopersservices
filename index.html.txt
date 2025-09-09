@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRODEVELOPERS SERVICES LLC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0d6efd, #0056b3);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            background: #ffffff;
+            color: #0d6efd;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            background: #0b5ed7;
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 1rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Floating script example */
+        #welcomeMessage {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            color: #0d6efd;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>PRODEVELOPERS SERVICES LLC</h1>
+    <p>Innovative Web Solutions for Modern Businesses</p>
+</header>
+
+<div class="buttons">
+    <button class="btn" onclick="showMessage('Contact us clicked!')">Contact Us</button>
+    <button class="btn" onclick="showMessage('Our Services clicked!')">Our Services</button>
+    <button class="btn" onclick="showMessage('Get a Quote clicked!')">Get a Quote</button>
+</div>
+
+<div id="welcomeMessage">Welcome to PRODEVELOPERS SERVICES!</div>
+
+<footer>
+    &copy; 2025 PRODEVELOPERS SERVICES LLC. All rights reserved.
+</footer>
+
+<script>
+    function showMessage(message) {
+        const msgBox = document.getElementById('welcomeMessage');
+        msgBox.textContent = message;
+        msgBox.style.display = 'block';
+        setTimeout(() => {
+            msgBox.style.display = 'none';
+        }, 2500);
+    }
+</script>
+
+</body>
+</html>
