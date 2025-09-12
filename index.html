@@ -10,26 +10,59 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- MDBootstrap for animations -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.css" rel="stylesheet">
   <style>
+    :root {
+      --bg-hero: linear-gradient(135deg, rgba(0, 48, 135, 0.9), rgba(255, 140, 0, 0.9));
+      --bg-pricing: linear-gradient(135deg, #e3f2fd, #f5f5f5);
+      --bg-skillsets: linear-gradient(135deg, #f5f5f5, #e3f2fd);
+      --bg-services: radial-gradient(circle at top, rgba(0,48,135,0.05) 0%, transparent 70%);
+      --bg-projects: linear-gradient(135deg, #fff8e1, #ffffff);
+      --bg-testimonials: linear-gradient(135deg, #e3f2fd, #fff3e0);
+      --bg-contact: #ffffff;
+      --color-primary: #003087;
+      --color-accent: #ff8c00;
+      --color-text: #4a4a4a;
+      --shadow: 0 4px 20px rgba(0,0,0,0.1);
+      --shadow-hover: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    [data-theme="dark"] {
+      --bg-hero: linear-gradient(135deg, rgba(0, 48, 135, 0.95), rgba(255, 140, 0, 0.95));
+      --bg-pricing: linear-gradient(135deg, #1e3a8a, #334155);
+      --bg-skillsets: linear-gradient(135deg, #334155, #1e3a8a);
+      --bg-services: radial-gradient(circle at top, rgba(255,140,0,0.1) 0%, transparent 70%);
+      --bg-projects: linear-gradient(135deg, #78350f, #1f2937);
+      --bg-testimonials: linear-gradient(135deg, #1e3a8a, #92400e);
+      --bg-contact: #1f2937;
+      --color-primary: #60a5fa;
+      --color-accent: #f97316;
+      --color-text: #d1d5db;
+      --shadow: 0 4px 20px rgba(0,0,0,0.3);
+      --shadow-hover: 0 8px 30px rgba(0,0,0,0.4);
+    }
     body {
       font-family: 'Roboto', sans-serif;
       background-color: #f8f9fa;
       scroll-behavior: smooth;
+      transition: all 0.3s ease;
     }
+    body[data-theme="dark"] { background-color: #0f172a; color: var(--color-text); }
     nav.navbar {
-      background: linear-gradient(to right, #003087, #0057b7);
+      background: var(--color-primary);
       position: fixed;
       width: 100%;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
     }
     .navbar-brand img {
       height: 40px;
       transition: transform 0.3s ease;
     }
     .navbar-brand:hover img {
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(5deg);
     }
     .nav-link {
       color: white !important;
@@ -40,136 +73,323 @@
     }
     .nav-link:hover, .nav-link.active {
       background-color: rgba(255, 255, 255, 0.2);
-      color: #ff8c00 !important;
+      color: var(--color-accent) !important;
+      transform: translateY(-2px);
+    }
+    .dark-toggle {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 50%;
     }
     .hero-section {
-      background: linear-gradient(135deg, rgba(0, 48, 135, 0.9), rgba(255, 98, 0, 0.9)), url('https://source.unsplash.com/1600x900/?technology,code');
+      background: var(--bg-hero), url('https://source.unsplash.com/1600x900/?technology,code');
       background-size: cover;
       background-position: center;
+      background-attachment: fixed; /* Parallax */
       color: white;
       padding: 150px 0;
       text-align: center;
       position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
     .hero-section h1 {
       font-size: 3.5rem;
       font-weight: 700;
       text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-      animation: fadeInDown 1s ease;
+      animation: fadeInDown 1s ease, typewriter 4s steps(40) 1s 1 normal both;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid white;
+    }
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
     }
     .hero-section .lead {
       font-size: 1.5rem;
       font-weight: 300;
       margin-bottom: 2rem;
+      animation: fadeInUp 1s ease 0.5s both;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .hero-section .btn {
-      background-color: #ff8c00;
+      background-color: var(--color-accent);
       border: none;
       padding: 0.75rem 2rem;
       font-weight: 600;
       transition: all 0.3s ease;
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><circle cx='10' cy='10' r='8' fill='%23ff8c00' opacity='0.8'/></svg>"), auto;
     }
     .hero-section .btn:hover {
       background-color: #e07b00;
-      transform: translateY(-3px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: var(--shadow-hover);
     }
     section {
       padding: 5rem 0;
+      position: relative;
     }
+    #pricing { background: var(--bg-pricing); }
+    #skillsets { background: var(--bg-skillsets); }
+    #services { background: var(--bg-services); }
+    #projects { background: var(--bg-projects); }
+    #testimonials { background: var(--bg-testimonials); }
+    #contact { background: var(--bg-contact); }
     .section-title {
       font-size: 2.8rem;
       font-weight: 700;
-      color: #003087;
+      color: var(--color-primary);
       text-align: center;
       margin-bottom: 3rem;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: var(--color-accent);
+      margin: 1rem auto;
     }
     .card {
       border: none;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       overflow: hidden;
+      data-mdb-animation-init data-mdb-animation="fade-in" data-mdb-animation-delay="0.2s";
     }
     .card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+      transform: translateY(-15px) rotate(1deg);
+      box-shadow: var(--shadow-hover);
     }
     .card-img-top {
       height: 200px;
       object-fit: cover;
+      transition: transform 0.3s ease;
     }
+    .card:hover .card-img-top { transform: scale(1.1); }
     .card-title {
-      color: #003087;
+      color: var(--color-primary);
       font-weight: 600;
     }
     .card-text {
-      color: #4a4a4a;
+      color: var(--color-text);
     }
     .card-icon {
-      font-size: 2.5rem;
-      color: #ff8c00;
+      font-size: 3rem;
+      color: var(--color-accent);
       margin-bottom: 1rem;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
     .carousel-item img {
       height: 400px;
       object-fit: cover;
-      border-radius: 10px;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
     }
+    .carousel-item:hover img { transform: scale(1.02); }
     .form-control {
-      border-radius: 8px;
-      border: 1px solid #ced4da;
-      transition: border-color 0.3s ease;
+      border-radius: 10px;
+      border: 2px solid #ced4da;
+      transition: all 0.3s ease;
+      data-mdb-animation-init data-mdb-animation="zoom-in" data-mdb-animation-start="onFocus";
     }
     .form-control:focus {
-      border-color: #ff8c00;
-      box-shadow: 0 0 5px rgba(255, 140, 0, 0.5);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
+      transform: scale(1.02);
     }
-    .btn-submit {
-      background-color: #ff8c00;
+    .btn-submit, .btn-buy {
+      background-color: var(--color-accent);
       border: none;
       padding: 0.75rem 2rem;
       font-weight: 600;
       transition: all 0.3s ease;
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><circle cx='10' cy='10' r='8' fill='%23ff8c00' opacity='0.8'/></svg>"), auto;
     }
-    .btn-submit:hover {
+    .btn-submit:hover, .btn-buy:hover {
       background-color: #e07b00;
-      transform: translateY(-2px);
+      transform: translateY(-3px) rotate(2deg);
+      box-shadow: var(--shadow-hover);
     }
+    .btn-buy { background-color: var(--color-primary); }
+    .btn-buy:hover { background-color: var(--color-accent); }
     footer {
-      background: #003087;
+      background: var(--color-primary);
       color: white;
       padding: 3rem 0;
       text-align: center;
     }
     footer a {
-      color: #ff8c00;
+      color: var(--color-accent);
       text-decoration: none;
       margin: 0 1rem;
       font-size: 1.5rem;
+      transition: all 0.3s ease;
     }
     footer a:hover {
       color: #e07b00;
+      transform: translateY(-3px) scale(1.2);
     }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* Pricing Styles */
+    .pricing-subtitle {
+      font-size: 1.2rem;
+      color: var(--color-text);
+      text-align: center;
+      margin-bottom: 3rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
+    .pricing-card {
+      position: relative;
+      text-align: center;
+      padding: 2.5rem;
+      data-mdb-animation-init data-mdb-animation="slide-up" data-mdb-animation-delay="0.1s";
+    }
+    .pricing-card .discount-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--color-accent);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow);
+    }
+    .pricing-card .price {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin: 1rem 0;
+      animation: bounce 1s ease;
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+    .pricing-card .price-label {
+      font-size: 1rem;
+      color: var(--color-text);
+      text-decoration: line-through;
+    }
+    .pricing-card ul li i {
+      color: #28a745;
+      margin-right: 0.5rem;
+    }
+    /* Skillsets Styles */
+    .skillsets-subtitle {
+      font-size: 1.2rem;
+      color: var(--color-text);
+      text-align: center;
+      margin-bottom: 3rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .skills-list li {
+      display: flex;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid #dee2e6;
+      transition: all 0.3s ease;
+      data-mdb-animation-init data-mdb-animation="zoom-in" data-mdb-animation-delay="0.3s";
+    }
+    .skills-list li:hover {
+      background: rgba(255,140,0,0.1);
+      border-radius: 10px;
+      transform: translateX(10px);
+    }
+    .skills-list .skill-icon {
+      font-size: 3rem;
+      color: var(--color-accent);
+      margin-right: 1rem;
+      width: 70px;
+      text-align: center;
+      animation: rotate 4s linear infinite;
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .skills-list .skill-name {
+      font-weight: 600;
+      color: var(--color-primary);
+      font-size: 1.3rem;
+      margin-bottom: 0.25rem;
+    }
+    .skills-list .skill-desc {
+      color: var(--color-text);
+      margin: 0;
+    }
+    /* Testimonials Styles */
+    .testimonial-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      data-mdb-animation-init data-mdb-animation="tada" data-mdb-animation-start="onHover";
+    }
+    .stars {
+      color: #ffc107;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .testimonial-text {
+      font-style: italic;
+      color: var(--color-text);
+      margin-bottom: 1rem;
+    }
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+    /* Media Queries */
     @media (max-width: 768px) {
       .hero-section h1 { font-size: 2.5rem; }
       .hero-section .lead { font-size: 1.2rem; }
       .section-title { font-size: 2rem; }
-      .card-icon { font-size: 2rem; }
+      .card-icon { font-size: 2.5rem; }
     }
   </style>
 </head>
-<body>
+<body data-theme="light">
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg">
   <div class="container">
     <a class="navbar-brand text-white fw-bold" href="#">
-      <img src="https://placehold.co/40x40?text=Logo" alt="PRODEVELOPERS Logo"> PRODEVELOPERS
+      <img src="img/prologo.png" alt="PRODEVELOPERS Logo"> PRO DEVELOPERS SERVICES
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
@@ -178,10 +398,13 @@
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link active" href="#hero"><i class="bi bi-house-door me-1"></i> Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#services"><i class="bi bi-gear me-1"></i> Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#pricing"><i class="bi bi-tag me-1"></i> Pricing</a></li>
+        <li class="nav-item"><a class="nav-link" href="#skillsets"><i class="bi bi-award me-1"></i> Skillsets</a></li>
         <li class="nav-item"><a class="nav-link" href="#projects"><i class="bi bi-briefcase me-1"></i> Projects</a></li>
         <li class="nav-item"><a class="nav-link" href="#security"><i class="bi bi-shield-lock me-1"></i> Web Security</a></li>
         <li class="nav-item"><a class="nav-link" href="#contact"><i class="bi bi-envelope me-1"></i> Contact</a></li>
       </ul>
+      <button class="dark-toggle ms-3" onclick="toggleTheme()"><i class="bi bi-moon-stars-fill"></i></button>
     </div>
   </div>
 </nav>
@@ -189,29 +412,158 @@
 <!-- Hero Section -->
 <section class="hero-section" id="hero">
   <div class="container">
-    <h1><i class="bi bi-code-slash me-2"></i> Empowering Your Digital Future</h1>
-    <p class="lead">Expert web development, design, consulting, and security solutions tailored to your business.</p>
-    <a href="#services" class="btn btn-lg"><i class="bi bi-arrow-down-circle me-2"></i> Discover Our Services</a>
+    <h1 data-mdb-animation-init data-mdb-animation="fadeInDown"><i class="bi bi-code-slash me-2"></i> Empowering Your Digital Future</h1>
+    <p class="lead" data-mdb-animation-init data-mdb-animation="fadeInUp">Expert web development, design, consulting, and security solutions tailored to your business.</p>
+    <a href="#services" class="btn btn-lg" data-mdb-animation-init data-mdb-animation="zoomIn"><i class="bi bi-arrow-down-circle me-2"></i> Discover Our Services</a>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="pricing-section">
+  <div class="container">
+    <h2 class="section-title">Providing The Best Web Design Services In The Industry</h2>
+    <p class="pricing-subtitle">Through our custom website designs, we just don’t give your brand an identity but we also give your business an uplift. We make sure our website development services leave an everlasting stamp on your visitors. Our team of industry leading web page designer make sure that you get the website that makes your brand stand out among the competitors.</p>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="card pricing-card">
+          <div class="discount-badge"><i class="bi bi-percent me-1"></i>20% OFF</div>
+          <i class="bi bi-rocket-takeoff card-icon"></i>
+          <h5 class="card-title">Starter</h5>
+          <div class="price">$199<span class="price-label">was $249</span></div>
+          <ul>
+            <li><i class="bi bi-check-lg"></i> 5-Page Responsive Website</li>
+            <li><i class="bi bi-check-lg"></i> Basic UI/UX Design</li>
+            <li><i class="bi bi-check-lg"></i> Mobile Optimization</li>
+            <li><i class="bi bi-check-lg"></i> 1 Revision</li>
+            <li><i class="bi bi-x-lg"></i> No Custom Features</li>
+          </ul>
+          <button class="btn btn-buy">Buy Now <i class="bi bi-arrow-right ms-2"></i></button>
+        </div>
+      </div>
+      <!-- Repite para otros paquetes, similar al anterior -->
+      <div class="col-md-3">
+        <div class="card pricing-card">
+          <div class="discount-badge"><i class="bi bi-percent me-1"></i>25% OFF</div>
+          <i class="bi bi-star-fill card-icon"></i>
+          <h5 class="card-title">Professional</h5>
+          <div class="price">$499<span class="price-label">was $666</span></div>
+          <ul>
+            <li><i class="bi bi-check-lg"></i> 10-Page Responsive Website</li>
+            <li><i class="bi bi-check-lg"></i> Advanced UI/UX Design</li>
+            <li><i class="bi bi-check-lg"></i> Mobile & SEO Optimization</li>
+            <li><i class="bi bi-check-lg"></i> 3 Revisions</li>
+            <li><i class="bi bi-check-lg"></i> Basic Integration (Contact Form)</li>
+          </ul>
+          <button class="btn btn-buy">Buy Now <i class="bi bi-arrow-right ms-2"></i></button>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card pricing-card">
+          <div class="discount-badge"><i class="bi bi-percent me-1"></i>30% OFF</div>
+          <i class="bi bi-building card-icon"></i>
+          <h5 class="card-title">Corporate</h5>
+          <div class="price">$699<span class="price-label">was $999</span></div>
+          <ul>
+            <li><i class="bi bi-check-lg"></i> 15-Page Responsive Website</li>
+            <li><i class="bi bi-check-lg"></i> Premium UI/UX Design</li>
+            <li><i class="bi bi-check-lg"></i> Full Mobile, SEO & Speed Optimization</li>
+            <li><i class="bi bi-check-lg"></i> Unlimited Revisions</li>
+            <li><i class="bi bi-check-lg"></i> Custom Features (Blog, Gallery)</li>
+            <li><i class="bi bi-check-lg"></i> Basic Security Setup</li>
+          </ul>
+          <button class="btn btn-buy">Buy Now <i class="bi bi-arrow-right ms-2"></i></button>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card pricing-card">
+          <div class="discount-badge"><i class="bi bi-percent me-1"></i>35% OFF</div>
+          <i class="bi bi-graph-up-arrow card-icon"></i>
+          <h5 class="card-title">Enterprise</h5>
+          <div class="price">$899<span class="price-label">was $1383</span></div>
+          <ul>
+            <li><i class="bi bi-check-lg"></i> Unlimited Pages</li>
+            <li><i class="bi bi-check-lg"></i> Enterprise-Level UI/UX Design</li>
+            <li><i class="bi bi-check-lg"></i> Advanced Mobile, SEO, Speed & Analytics</li>
+            <li><i class="bi bi-check-lg"></i> Unlimited Revisions</li>
+            <li><i class="bi bi-check-lg"></i> Full Custom Features (E-commerce, API)</li>
+            <li><i class="bi bi-check-lg"></i> Advanced Security & Consulting</li>
+          </ul>
+          <button class="btn btn-buy">Buy Now <i class="bi bi-arrow-right ms-2"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skillsets Section -->
+<section id="skillsets" class="skillsets-section">
+  <div class="container">
+    <h2 class="section-title">Our Skillsets</h2>
+    <p class="skillsets-subtitle">At PRODEVELOPERS SERVICES LLC, we leverage the most cutting-edge and up-to-date technologies available in 2025 to deliver innovative web and app development solutions. Our commitment to modernity ensures that your projects are built with the latest frameworks, tools, and best practices for optimal performance, scalability, and security—keeping your business ahead in a rapidly evolving digital landscape.</p>
+    <ul class="skills-list row g-4 justify-content-center">
+      <li class="col-md-6">
+        <i class="bi bi-file-code-fill skill-icon"></i>
+        <div>
+          <h5 class="skill-name">JavaScript</h5>
+          <p class="skill-desc">Core language for dynamic frontend and backend (Node.js) development, powering interactive web experiences.</p>
+        </div>
+      </li>
+      <li class="col-md-6">
+        <i class="bi bi-diagram-3-fill skill-icon"></i>
+        <div>
+          <h5 class="skill-name">Python</h5>
+          <p class="skill-desc">Versatile for backend, data processing, and AI integrations in scalable web applications.</p>
+        </div>
+      </li>
+      <li class="col-md-6">
+        <i class="bi bi-cup-hot-fill skill-icon"></i>
+        <div>
+          <h5 class="skill-name">Java</h5>
+          <p class="skill-desc">Robust for enterprise-level apps, cross-platform development, and secure e-commerce solutions.</p>
+        </div>
+      </li>
+      <li class="col-md-6">
+        <i class="bi bi-server-gear skill-icon"></i>
+        <div>
+          <h5 class="skill-name">PHP</h5>
+          <p class="skill-desc">Efficient server-side scripting for dynamic websites and content management systems.</p>
+        </div>
+      </li>
+      <li class="col-md-6">
+        <i class="bi bi-speedometer2 skill-icon"></i>
+        <div>
+          <h5 class="skill-name">Go (Golang)</h5>
+          <p class="skill-desc">High-performance for scalable backend services, microservices, and cloud-native apps.</p>
+        </div>
+      </li>
+      <li class="col-md-6">
+        <i class="bi bi-apple skill-icon"></i>
+        <div>
+          <h5 class="skill-name">Swift</h5>
+          <p class="skill-desc">Modern choice for iOS and macOS app development, ensuring fast and secure mobile experiences.</p>
+        </div>
+      </li>
+    </ul>
   </div>
 </section>
 
 <!-- Services Section -->
 <section id="services">
   <div class="container">
-    <h2 class="section-title">Our Services</h2>
+    <h2 class="section-title">Our Services <i class="bi bi-rocket-takeoff ms-2"></i></h2>
     <div class="row g-4">
-      <div class="col-md-4">
-        <div class="card">
+      <div class="col-md-3">
+        <div class="card h-100" data-mdb-animation-init data-mdb-animation="fade-in-left">
           <img src="https://images.unsplash.com/photo-1583508915901-b5f84c1dcde1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Web Development">
           <div class="card-body p-4 text-center">
-            <i class="bi bi-globe card-icon"></i>
+            <i class="bi bi-globe-europe-africa card-icon"></i>
             <h5 class="card-title">Web Development</h5>
             <p class="card-text">Crafting responsive, high-performance websites with modern frameworks and stunning designs.</p>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
+      <div class="col-md-3">
+        <div class="card h-100" data-mdb-animation-init data-mdb-animation="fade-in-up">
           <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8b3BlbiUyMHNvdXJjZXxlbnwwfHwwfHx8MA%3D%3D" class="card-img-top" alt="Software Development">
           <div class="card-body p-4 text-center">
             <i class="bi bi-code-square card-icon"></i>
@@ -220,8 +572,8 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
+      <div class="col-md-3">
+        <div class="card h-100" data-mdb-animation-init data-mdb-animation="fade-in-right">
           <img src="https://plus.unsplash.com/premium_photo-1728970536937-f6a4ae97573d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZWNvbW1lcmNlJTIwcHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D" class="card-img-top" alt="E-commerce">
           <div class="card-body p-4 text-center">
             <i class="bi bi-cart4 card-icon"></i>
@@ -230,8 +582,8 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card">
+      <div class="col-md-3">
+        <div class="card h-100" data-mdb-animation-init data-mdb-animation="zoom-in">
           <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y29uc3VsdGluZ3xlbnwwfHwwfHx8MA%3D%3D" class="card-img-top" alt="Consulting">
           <div class="card-body p-4 text-center">
             <i class="bi bi-chat-dots card-icon"></i>
@@ -244,20 +596,20 @@
   </div>
 </section>
 
-<!-- Web Security Section -->
+<!-- Security Section -->
 <section id="security" style="background-color: #e9ecef;">
   <div class="container">
-    <h2 class="section-title">Web Security Expertise</h2>
+    <h2 class="section-title">Web Security Expertise <i class="bi bi-shield-shaded ms-2"></i></h2>
     <div class="row g-4">
       <div class="col-md-6">
-        <div class="card p-4 text-center">
+        <div class="card p-4 text-center" data-mdb-animation-init data-mdb-animation="slide-in-left">
           <i class="bi bi-shield-check card-icon"></i>
           <h5 class="card-title">Secure Development</h5>
           <p class="card-text">We build websites and applications with security-first practices, ensuring protection against vulnerabilities.</p>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="card p-4 text-center">
+        <div class="card p-4 text-center" data-mdb-animation-init data-mdb-animation="slide-in-right">
           <i class="bi bi-bug card-icon"></i>
           <h5 class="card-title">Penetration Testing</h5>
           <p class="card-text">Comprehensive testing to identify and mitigate potential security risks in your digital assets.</p>
@@ -267,10 +619,10 @@
   </div>
 </section>
 
-<!-- Projects Section (Carousel) -->
+<!-- Projects Section -->
 <section id="projects">
   <div class="container">
-    <h2 class="section-title">Recent Projects</h2>
+    <h2 class="section-title">Recent Projects <i class="bi bi-briefcase-fill ms-2"></i></h2>
     <div id="projectsCarousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -307,31 +659,94 @@
   </div>
 </section>
 
+<!-- Testimonials Section -->
+<section id="testimonials">
+  <div class="container">
+    <h2 class="section-title">What Our Clients Say <i class="bi bi-people-fill ms-2"></i></h2>
+    <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="testimonial-card">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <p class="testimonial-text">"PRODEVELOPERS transformed our outdated site into a modern powerhouse. Exceptional service!"</p>
+                <h6 class="testimonial-author">- Jane Doe, CEO of TechCorp</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="testimonial-card">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <p class="testimonial-text">"Incredible web security expertise. Our app is now bulletproof. Highly recommend!"</p>
+                <h6 class="testimonial-author">- John Smith, Founder of SecureNet</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="testimonial-card">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <p class="testimonial-text">"The e-commerce solution boosted our sales by 200%. True professionals!"</p>
+                <h6 class="testimonial-author">- Alice Johnson, E-com Manager</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="testimonial-card">
+                <div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <p class="testimonial-text">"Custom software that scaled perfectly. PRODEVELOPERS is our go-to partner."</p>
+                <h6 class="testimonial-author">- Bob Lee, CTO InnovateLabs</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
 <!-- Contact Section -->
 <section id="contact">
   <div class="container">
-    <h2 class="section-title">Get In Touch</h2>
+    <h2 class="section-title">Get In Touch <i class="bi bi-chat-heart ms-2"></i></h2>
     <form id="contactForm" class="row g-3">
       <div class="col-md-6">
         <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-person"></i></span>
+          <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
           <input type="text" class="form-control" id="name" placeholder="Your Name" required>
         </div>
       </div>
       <div class="col-md-6">
         <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+          <span class="input-group-text"><i class="bi bi-envelope-heart"></i></span>
           <input type="email" class="form-control" id="email" placeholder="Email" required>
         </div>
       </div>
       <div class="col-12">
         <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-chat-text"></i></span>
+          <span class="input-group-text"><i class="bi bi-chat-text-heart"></i></span>
           <textarea class="form-control" id="message" rows="5" placeholder="Your Message" required></textarea>
         </div>
       </div>
       <div class="col-12 text-center">
-        <button type="submit" class="btn btn-submit btn-lg"><i class="bi bi-send me-2"></i> Send Message</button>
+        <button type="submit" class="btn btn-submit btn-lg"><i class="bi bi-send-check me-2"></i> Send Message</button>
       </div>
     </form>
     <div id="formMessage" class="mt-3 text-center"></div>
@@ -341,18 +756,23 @@
 <!-- Footer -->
 <footer>
   <div class="container">
-    <p>&copy; 2025 PRODEVELOPERS SERVICES LLC. All rights reserved.</p>
+    <p>&copy; 2025 PRODEVELOPERS SERVICES LLC. All rights reserved. <i class="bi bi-heart-fill ms-1" style="color: #ff8c00;"></i></p>
     <p>
       <a href="https://twitter.com/prodevelopers" target="_blank"><i class="bi bi-twitter"></i></a>
       <a href="https://linkedin.com/company/prodevelopers" target="_blank"><i class="bi bi-linkedin"></i></a>
       <a href="mailto:contact@prodevelopersservices.com"><i class="bi bi-envelope-at"></i></a>
+      <a href="https://github.com/prodevelopers" target="_blank"><i class="bi bi-github"></i></a>
+      <a href="https://instagram.com/prodevelopers" target="_blank"><i class="bi bi-instagram"></i></a>
+      <a href="https://facebook.com/prodevelopers" target="_blank"><i class="bi bi-facebook"></i></a>
+      <a href="https://youtube.com/prodevelopers" target="_blank"><i class="bi bi-youtube"></i></a>
     </p>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.umd.min.js"></script>
 <script>
-  // Smooth scrolling for nav links
+  // Smooth scrolling
   document.querySelectorAll('a.nav-link').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
@@ -361,7 +781,7 @@
     });
   });
 
-  // Contact form submission
+  // Contact form
   document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const name = document.getElementById('name').value;
@@ -370,14 +790,64 @@
     const formMessage = document.getElementById('formMessage');
 
     if (name && email && message) {
-      formMessage.innerHTML = '<p class="text-success"><i class="bi bi-check-circle me-2"></i> Thank you! Your message has been sent.</p>';
+      formMessage.innerHTML = '<p class="text-success"><i class="bi bi-check-circle-fill me-2"></i> Thank you! Your message has been sent. <i class="bi bi-emoji-heart-eyes ms-2"></i></p>';
       this.reset();
-      setTimeout(() => formMessage.innerHTML = '', 3000);
+      setTimeout(() => formMessage.innerHTML = '', 5000);
     } else {
-      formMessage.innerHTML = '<p class="text-danger"><i class="bi bi-exclamation-circle me-2"></i> Please fill out all fields.</p>';
+      formMessage.innerHTML = '<p class="text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i> Please fill out all fields.</p>';
     }
+  });
+
+  // Dark mode toggle
+  function toggleTheme() {
+    const body = document.body;
+    const icon = document.querySelector('.dark-toggle i');
+    if (body.getAttribute('data-theme') === 'light') {
+      body.setAttribute('data-theme', 'dark');
+      icon.classList.remove('bi-moon-stars-fill');
+      icon.classList.add('bi-sun-fill');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      body.setAttribute('data-theme', 'light');
+      icon.classList.remove('bi-sun-fill');
+      icon.classList.add('bi-moon-stars-fill');
+      localStorage.setItem('theme', 'light');
+    }
+  }
+  // Load theme from localStorage
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.body.setAttribute('data-theme', savedTheme);
+  const icon = document.querySelector('.dark-toggle i');
+  if (savedTheme === 'dark') {
+    icon.classList.remove('bi-moon-stars-fill');
+    icon.classList.add('bi-sun-fill');
+  }
+
+  // Scroll animations with Intersection Observer
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.card, .pricing-card, .skills-list li, .testimonial-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+
+  // Initialize MDB animations
+  document.querySelectorAll('[data-mdb-animation-init]').forEach(el => {
+    new mdb.Animation(el);
   });
 </script>
 </body>
 </html>
-
