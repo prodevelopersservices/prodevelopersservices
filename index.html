@@ -22,9 +22,12 @@
       --color-primary: #003087;
       --color-accent: #ff8c00;
       --color-text: #4a4a4a;
+      --color-text-light: #6c757d;
       --shadow: 0 4px 20px rgba(0,0,0,0.1);
       --shadow-hover: 0 8px 30px rgba(0,0,0,0.2);
       --navbar-bg: #003087;
+      --carousel-control-bg: rgba(0,0,0,0.6);
+      --carousel-caption-bg: rgba(0,0,0,0.7);
     }
     [data-theme="dark"] {
       --bg-hero: linear-gradient(135deg, rgba(0, 48, 135, 0.95), rgba(255, 140, 0, 0.95));
@@ -35,9 +38,12 @@
       --color-primary: #60a5fa;
       --color-accent: #f97316;
       --color-text: #e2e8f0;
+      --color-text-light: #cbd5e1;
       --shadow: 0 4px 20px rgba(0,0,0,0.3);
       --shadow-hover: 0 8px 30px rgba(0,0,0,0.4);
       --navbar-bg: #001f5b;
+      --carousel-control-bg: rgba(255,255,255,0.3);
+      --carousel-caption-bg: rgba(31,41,55,0.8);
     }
     body {
       font-family: 'Roboto', sans-serif;
@@ -177,7 +183,7 @@
       color: var(--color-text);
       data-mdb-animation-init data-mdb-animation="fade-in" data-mdb-animation-delay="0.2s";
     }
-    body[data-theme="dark"] .card { background: #1e293b; color: #e2e8f0; }
+    body[data-theme="dark"] .card { background: #1e293b; color: var(--color-text); }
     .card:hover {
       transform: translateY(-15px) rotate(1deg);
       box-shadow: var(--shadow-hover);
@@ -213,35 +219,71 @@
       transition: transform 0.3s ease;
     }
     .carousel-item:hover img { transform: scale(1.02); }
-    /* Carousel Controls - Más visibles */
+    /* Carousel Controls - Iconos visibles y modernos */
     .carousel-control-prev,
     .carousel-control-next {
       width: 5%;
-      background: rgba(0,0,0,0.5); /* Semi-transparente en light */
+      background: var(--carousel-control-bg);
       border-radius: 50%;
-      opacity: 0.8;
+      opacity: 0.9;
       transition: all 0.3s ease;
+      filter: invert(1); /* Invierte colores para visibilidad en dark/light */
     }
     body[data-theme="dark"] .carousel-control-prev,
     body[data-theme="dark"] .carousel-control-next {
-      background: rgba(255,255,255,0.2); /* Semi-transparente en dark */
+      filter: invert(0); /* Ajuste para dark */
+    }
+    .carousel-control-prev::before,
+    .carousel-control-next::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 20px;
+      background: white; /* Flecha blanca base */
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    /* Iconos de flechas forzados con CSS (izquierda/derecha) */
+    .carousel-control-prev-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
+      background-size: 100%, 100%;
+      width: 30px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .carousel-control-next-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+      background-size: 100%, 100%;
+      width: 30px;
+      height: 30px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    body[data-theme="dark"] .carousel-control-prev-icon,
+    body[data-theme="dark"] .carousel-control-next-icon {
+      filter: brightness(0) invert(1); /* Blanco en dark */
     }
     .carousel-control-prev:hover,
     .carousel-control-next:hover {
       opacity: 1;
-      transform: scale(1.2);
-      box-shadow: 0 0 10px rgba(255,255,255,0.5);
+      transform: scale(1.3);
+      box-shadow: 0 0 15px var(--color-accent);
     }
-    /* Carousel Captions - Texto visible */
+    /* Carousel Captions - Texto visible y moderno */
     .carousel-caption {
-      background: rgba(0,0,0,0.7); /* Fondo oscuro en light para texto blanco */
+      background: var(--carousel-caption-bg);
       border-radius: 10px;
       padding: 1rem;
       color: white;
+      backdrop-filter: blur(5px);
     }
     body[data-theme="dark"] .carousel-caption {
-      background: rgba(0,0,0,0.3); /* Fondo más claro en dark para texto oscuro */
-      color: #1f2937;
+      background: rgba(31,41,55,0.9);
+      color: var(--color-text);
     }
     .form-control {
       border-radius: 10px;
@@ -251,7 +293,11 @@
       color: var(--color-text);
       data-mdb-animation-init data-mdb-animation="zoom-in" data-mdb-animation-start="onFocus";
     }
-    body[data-theme="dark"] .form-control { background: #334155; border-color: #475569; color: #e2e8f0; }
+    body[data-theme="dark"] .form-control { 
+      background: #334155; 
+      border-color: #475569; 
+      color: var(--color-text); 
+    }
     .form-control:focus {
       border-color: var(--color-accent);
       box-shadow: 0 0 10px rgba(255, 140, 0, 0.3);
@@ -290,10 +336,10 @@
       color: #e07b00;
       transform: translateY(-3px) scale(1.2);
     }
-    /* Pricing Styles (sin cambios mayores, pero con mejor contraste) */
+    /* Pricing Styles */
     .pricing-subtitle {
       font-size: 1.2rem;
-      color: var(--color-text);
+      color: var(--color-text-light);
       text-align: center;
       margin-bottom: 3rem;
       max-width: 800px;
@@ -308,7 +354,7 @@
       background: var(--bg-contact);
       color: var(--color-text);
     }
-    body[data-theme="dark"] .pricing-card { background: #1e293b; color: #e2e8f0; }
+    body[data-theme="dark"] .pricing-card { background: #1e293b; color: var(--color-text); }
     .pricing-card .discount-badge {
       position: absolute;
       top: -15px;
@@ -336,7 +382,7 @@
     }
     .pricing-card .price-label {
       font-size: 1rem;
-      color: var(--color-text);
+      color: var(--color-text-light);
       text-decoration: line-through;
     }
     .pricing-card ul li i {
@@ -346,7 +392,7 @@
     /* Skillsets Styles */
     .skillsets-subtitle {
       font-size: 1.2rem;
-      color: var(--color-text);
+      color: var(--color-text-light);
       text-align: center;
       margin-bottom: 3rem;
       max-width: 800px;
@@ -363,9 +409,9 @@
       color: var(--color-text);
       data-mdb-animation-init data-mdb-animation="zoom-in" data-mdb-animation-delay="0.3s";
     }
-    body[data-theme="dark"] .skills-list li { border-color: #475569; color: #e2e8f0; }
+    body[data-theme="dark"] .skills-list li { border-color: #475569; color: var(--color-text); }
     .skills-list li:hover {
-      background: rgba(255,140,0,0.1);
+      background: rgba(255,140,0,0.05);
       border-radius: 10px;
       transform: translateX(10px);
     }
@@ -389,7 +435,7 @@
       margin-bottom: 0.25rem;
     }
     .skills-list .skill-desc {
-      color: var(--color-text);
+      color: var(--color-text-light);
       margin: 0;
     }
     /* Testimonials Styles */
@@ -402,7 +448,7 @@
       color: var(--color-text);
       data-mdb-animation-init data-mdb-animation="tada" data-mdb-animation-start="onHover";
     }
-    body[data-theme="dark"] .testimonial-card { background: #1e293b; color: #e2e8f0; }
+    body[data-theme="dark"] .testimonial-card { background: #1e293b; color: var(--color-text); }
     .stars {
       color: #ffc107;
       font-size: 1.5rem;
@@ -410,7 +456,7 @@
     }
     .testimonial-text {
       font-style: italic;
-      color: var(--color-text);
+      color: var(--color-text-light);
       margin-bottom: 1rem;
     }
     .testimonial-author {
@@ -461,7 +507,7 @@
   </div>
 </section>
 
-<!-- Pricing Section (sin cambios mayores) -->
+<!-- Pricing Section -->
 <section id="pricing" class="pricing-section">
   <div class="container">
     <h2 class="section-title">Providing The Best Web Design Services In The Industry</h2>
